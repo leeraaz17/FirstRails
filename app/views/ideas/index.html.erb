@@ -1,36 +1,15 @@
-<script type="text/javascript">
-$(document).ready(function() {
-    $('#example').DataTable();
-} );
-</script>
-<p id="notice"><%= notice %></p>
+<button class="btn btn-danger"><%= link_to('Logout', destroy_user_session_path, :method => :delete) %> </button>
 
-<h1>Ideas</h1>
+<h1>Listing ideas</h1>
 
-<table id="example" class="table table-striped table-bordered" style="width:100%">
-        <thead>
-          <tr>
-            <th class="">Name</th>
-            <th class="">Description</th>
-            <th class="text-centre">Picture</th>
-            <th colspan="3"></th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @ideas.each do |idea| %>
-      <tr>
-        <td><%= idea.name %></td>
-        <td><%= idea.description %></td>
-        <td><%= image_tag idea.picture_url, width: '100%' if idea.picture.present? %></td>
-        <td class="btn"><%= link_to 'Show', idea %></td>
-        <td class="btn btn-primary"><%= link_to 'Edit', edit_idea_path(idea) %></td>
-        <td class="btn btn-danger"><%= link_to 'Destroy', idea, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      </tr>
+<% @ideas.in_groups_of(3) do |group| %>
+  <div class="row">
+    <% group.compact.each do |idea| %>
+      <div class="col-md-4">
+        <%= image_tag idea.picture_url(:thumb) if idea.picture.present? %>
+        <h4><%= link_to idea.name, idea %></h4>
+        <%= idea.description %>
+      </div>
     <% end %>
-  </tbody>
-</table>
-
-<br>
-<button class="btn"><%= link_to 'New Idea', new_idea_path %></button>
-
+  </div>
+<% end %>
