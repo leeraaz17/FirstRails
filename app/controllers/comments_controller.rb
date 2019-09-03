@@ -10,11 +10,13 @@ class CommentsController < ApplicationController
   # GET /comments/1
   # GET /comments/1.json
   def show
+
   end
 
   # GET /comments/new
   def new
     @comment = Comment.new
+    @comment = current_user.comments.build
   end
 
   # GET /comments/1/edit
@@ -23,18 +25,39 @@ class CommentsController < ApplicationController
 
   # POST /comments
   # POST /comments.json
-  def create
-    @comment = Comment.new(comment_params)
+  # def create
+  #   binding.pry
+  #   @idea = Idea.find(params[:idea_id])
+  #   @idea.user_id = current_user
+  #   @comment = current_user.comments.create(params[:comment_params])
+    
+  #   respond_to do |format|
+  #     if @comment.save
+  #       format.html { redirect_to @comment, notice: 'Comment was successfully created.' }
+  #       format.json { render :show, status: :created, location: @comment }
+  #     else
+  #       format.html { render :new }
+  #       format.json { render json: @comment.errors, status: :unprocessable_entity }
+  #     end
+  #   end
+  # end
 
-    respond_to do |format|
-      if @comment.save
-        format.html { redirect_to @comment, notice: 'Comment was successfully created.' }
-        format.json { render :show, status: :created, location: @comment }
-      else
-        format.html { render :new }
-        format.json { render json: @comment.errors, status: :unprocessable_entity }
-      end
+  def create
+    binding.pry
+    @idea = Idea.find(params[:idea_id])
+    @comment = @idea.comments.create!(comment_params)
+    # if logged-in, fill name and email from db
+    if current_user
+
+      @comment.user_name = current_user.first_name
+      # @product_comment.email = current_user.email
+      # @product_comment.user_id = current_user.id
     end
+    # binding.pry
+
+    @idea.reload
+    # @product_comments = @product.product_comments
+    render :show
   end
 
   # PATCH/PUT /comments/1
@@ -69,6 +92,6 @@ class CommentsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def comment_params
-      params.require(:comment).permit(:user_name, :body, :idea_id)
+      params.require(:comment).permit(:user_id, :user_name, :body, :idea_id)
     end
 end
