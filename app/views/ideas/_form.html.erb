@@ -1,7 +1,7 @@
 <script src="https://cdn.ckeditor.com/ckeditor5/12.4.0/classic/ckeditor.js"></script>
 
 <%= form_with(model: idea, local: true, class: 'form') do |form| %>
-  <%= form.text_field :current_user, :value => current_user.first_name %>
+ 
   <% if idea.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(idea.errors.count, "error") %> prohibited this idea from being saved:</h2>
@@ -34,6 +34,15 @@
       <%= form.file_field :picture, :class => '' %>
     </div>
   </div>      
+
+
+  <div class="form-group row">
+    <%= form.label :published_by, :class => 'col-sm-2 col-form-label' %>
+    <div class="col-sm-10">
+      <%= form.text_field :published_by, :value => current_user.first_name, :class => 'form-control' %>
+      <%= form.hidden_field :user_id, :value => current_user.id %>
+    </div>
+  </div>
 
   <div class="form-group">
     <div class="actions">

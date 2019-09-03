@@ -3,7 +3,7 @@ class User < ApplicationRecord
   include Gravtastic
   gravtastic
 
-  # validates :first_name, presence: true
+  validates :first_name, presence: true
 
   has_many :ideas
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable

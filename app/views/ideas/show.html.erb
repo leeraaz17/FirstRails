@@ -1,10 +1,14 @@
 <p>
-<%= link_to 'Edit', edit_idea_path(@idea) %> |
-<%= link_to 'Destroy', @idea, data: { confirm: 'Are you sure?' }, method: :delete %> |
-<%= link_to 'Back', ideas_path %>
+<% if @idea.user_id == current_user.id %>
+    <%= link_to 'Edit', edit_idea_path(@idea) %> |
+    <%= link_to 'Destroy', @idea, data: { confirm: 'Are you sure?' }, method: :delete %> |
+ <% end %>
+ <%= link_to 'Back', ideas_path %>
 </p>
 
 <%= image_tag(@idea.picture_url, width: '50%', height: '50%') if @idea.picture.present? %>
 
-<h2><%= @idea.name %></h2>
+<h2 class="text-center"><%= @idea.name %></h2>
+<h4 class="text-left">Author | <%= @idea.published_by %> </h4>
+<hr>
 <p><%=@idea.description.html_safe %></p>
