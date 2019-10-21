@@ -7,4 +7,11 @@ Rails.application.routes.draw do
   end  
   root to: redirect('/ideas')
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
+
+  
+  # namespace :admin do
+    get "admin/dashboard" => "admins#dashboard"
+
+    # resources :ideas
+  # end
 end
